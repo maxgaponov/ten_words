@@ -5,13 +5,13 @@ class Word(db.Model):
     rus = db.Column(db.Text)
     eng = db.Column(db.Text)
     level = db.Column(db.Integer)
-    group = db.Column(db.Integer)
+    difficulty = db.Column(db.Integer)
 
-    def __init__(self, rus, eng, level, group):
+    def __init__(self, rus, eng, level, difficulty):
         self.rus = rus
         self.eng = eng
         self.level = level
-        self.group = group
+        self.difficulty = difficulty
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
