@@ -16,11 +16,11 @@ def new_game():
     user = User.query.filter_by(sber_id=id).first()
     res = {}
     if user is None:
-        db.session.add(User(id, 0))
+        db.session.add(User(id, 0, -1))
         db.session.commit()
-        res = {'level': 0}
+        res = {'level': 0, 'diff': -1}
     else:
-        res = {'level': user.level}
+        res = {'level': user.level, 'diff': user.difficulty}
 
     user_data[id] = {
         'word_list': list(map(lambda word: (word.rus, word.eng), Word.query.filter_by(level=res['level'], difficulty=2).limit(5))),
@@ -29,6 +29,28 @@ def new_game():
     }
 
     logging.error(user_data)
+
+    response = app.response_class(
+        response=json.dumps(res),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route('/set_diff', methods=['GET', 'POST'])
+def set_diff():
+    global user_data
+
+    req_data = request.get_json()
+    logging.error(req_data)
+    id = req_data['id']
+    diff = req_data['diff']
+    
+    user = User.query.filter_by(sber_id=id).first()
+    user.difficulty = diff
+    db.session.commit()
+
+    res = {}
 
     response = app.response_class(
         response=json.dumps(res),
@@ -83,7 +105,7 @@ def next_word():
             user_data[id]['cur_word'] = -1
             user_data[id]['testing_phase'] = True
             random.shuffle(user_data[id]['word_list'])
-    
+
     logging.error(user_data)
     
     response = app.response_class(
