@@ -5,7 +5,8 @@ from application.models import Word, User
 
 @app.route('/new_game', methods=['GET', 'POST'])
 def new_game():
-    id = request.values['id']
+    req_data = request.get_json()
+    id = req_data['id']
     user = User.query.filter_by(sber_id=id).first()
     if user is None:
         db.session.add(User(id, 0))
@@ -16,6 +17,7 @@ def new_game():
 
 @app.route('/next_word', methods=['GET', 'POST'])
 def next_word():
-    id = request.values['id']
-    wa = request.values['wa']
+    req_data = request.get_json()
+    id = req_data['id']
+    wa = req_data['wa']
     return json.dumps({'word_rus': 'Собака', 'word_eng': 'Dog', 'end': False})
