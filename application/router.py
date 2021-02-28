@@ -51,6 +51,9 @@ def next_word():
     if user_data[id]['testing_phase']:
         if not wa and user_data[id]['cur_word'] == len(user_data[id]['word_list']):
             res = {'word_rus': '', 'word_eng': '', 'end': True}
+            user = User.query.filter_by(sber_id=id).first()
+            user.level += 1
+            db.session.commit()
         elif user_data[id]['cur_word'] == -1:
             res = {'word_rus': '', 'word_eng': '', 'end': True}
             user_data[id]['cur_word'] += 1
