@@ -21,12 +21,11 @@ def new_game():
         res = {'level': 0, 'diff': -1}
     else:
         res = {'level': user.level, 'diff': user.difficulty}
-
-    user_data[id] = {
-        'word_list': list(map(lambda word: (word.rus, word.eng), Word.query.filter_by(level=res['level'], difficulty=2).limit(5))),
-        'cur_word': 0,
-        'testing_phase': False,
-    }
+        user_data[id] = {
+            'word_list': list(map(lambda word: (word.rus, word.eng), Word.query.filter_by(level=res['level'], difficulty=2).limit(5))),
+            'cur_word': 0,
+            'testing_phase': False,
+        }
 
     logging.error(user_data)
 
