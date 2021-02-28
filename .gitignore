@@ -1,0 +1,7 @@
+.idea/
+*.pyc
+cache/
+venv/
+*.sqlite
+.env
+**/__pycache__/
