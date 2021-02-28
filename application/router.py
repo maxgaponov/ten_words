@@ -22,7 +22,7 @@ def new_game():
         res = {'level': user.level}
 
     user_data[id] = {
-        'word_list': list(map(lambda word: (word.rus, word.eng), Word.query.filter_by(level=res['level'], difficulty=2).all())),
+        'word_list': list(map(lambda word: (word.rus, word.eng), Word.query.filter_by(level=res['level'], difficulty=2).limit(5))),
         'cur_word': 0,
         'testing_phase': False,
     }
