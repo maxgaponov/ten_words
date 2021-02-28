@@ -45,7 +45,6 @@ def next_word():
     logging.error(req_data)
     id = req_data['id']
     wa = req_data['wa']
-    logging.error(type(wa))
 
     res = {}
 
@@ -84,6 +83,8 @@ def next_word():
             user_data[id]['cur_word'] = -1
             user_data[id]['testing_phase'] = True
             random.shuffle(user_data[id]['word_list'])
+    
+    logging.error(user_data)
     
     response = app.response_class(
         response=json.dumps(res),
