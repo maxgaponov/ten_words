@@ -1,4 +1,5 @@
 import json
+from flask import request
 from application import app, user_data
 from application.models import Word, User
 
