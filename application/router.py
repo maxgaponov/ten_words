@@ -47,6 +47,7 @@ def set_diff():
     
     user = User.query.filter_by(sber_id=id).first()
     user.difficulty = diff
+    user.level = 0
     db.session.commit()
 
     res = {}
