@@ -26,6 +26,8 @@ def new_game():
         'testing_phase': False,
     }
 
+    logging.error(user_data)
+
     response = app.response_class(
         response=json.dumps(res),
         status=200,
@@ -42,6 +44,8 @@ def next_word():
     wa = req_data['wa']
 
     res = {}
+
+    logging.error(user_data)
 
     if user_data[id]['testing_phase']:
         pass
