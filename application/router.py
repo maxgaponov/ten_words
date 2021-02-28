@@ -10,6 +10,7 @@ def new_game():
     global user_data
 
     req_data = request.get_json()
+    logging.error(req_data)
     id = req_data['id']
     
     user = User.query.filter_by(sber_id=id).first()
@@ -27,7 +28,7 @@ def new_game():
         'testing_phase': False,
     }
 
-    # logging.error(user_data)
+    logging.error(user_data)
 
     response = app.response_class(
         response=json.dumps(res),
@@ -41,12 +42,13 @@ def next_word():
     global user_data
 
     req_data = request.get_json()
+    logging.error(req_data)
     id = req_data['id']
     wa = req_data['wa']
 
     res = {}
 
-    # logging.error(user_data)
+    logging.error(user_data)
 
     if user_data[id]['testing_phase']:
         if not wa and user_data[id]['cur_word'] == len(user_data[id]['word_list']):
