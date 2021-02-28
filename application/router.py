@@ -1,4 +1,5 @@
 import json
+import random
 import logging
 from flask import request
 from application import app, db, user_data
@@ -26,7 +27,7 @@ def new_game():
         'testing_phase': False,
     }
 
-    logging.error(user_data)
+    # logging.error(user_data)
 
     response = app.response_class(
         response=json.dumps(res),
@@ -45,15 +46,37 @@ def next_word():
 
     res = {}
 
-    logging.error(user_data)
+    # logging.error(user_data)
 
     if user_data[id]['testing_phase']:
-        pass
+        if not wa and user_data[id]['cur_word'] == len(user_data[id]['word_list']):
+            res = {'word_rus': '', 'word_eng': '', 'end': True}
+        elif user_data[id]['cur_word'] == -1:
+            res = {'word_rus': '', 'word_eng': '', 'end': True}
+            user_data[id]['cur_word'] += 1
+        else:
+            if wa:
+                user_data[id]['cur_word'] -= 1
+                idx = user_data[id]['cur_word']
+                wa_word = user_data[id]['word_list'].pop(idx)
+                user_data[id]['word_list'].append(wa_word)
+                cur_word = user_data[id]['word_list'][idx]
+                res = {'word_rus': cur_word[0], 'word_eng': cur_word[1], 'end': False}
+                user_data[id]['cur_word'] += 1
+            else:
+                idx = user_data[id]['cur_word']
+                cur_word = user_data[id]['word_list'][idx]
+                res = {'word_rus': cur_word[0], 'word_eng': cur_word[1], 'end': False}
+                user_data[id]['cur_word'] += 1
     else:
         idx = user_data[id]['cur_word']
         cur_word = user_data[id]['word_list'][idx]
         res = {'word_rus': cur_word[0], 'word_eng': cur_word[1], 'end': False}
         user_data[id]['cur_word'] += 1
+        if user_data[id]['cur_word'] == len(user_data[id]['word_list']):
+            user_data[id]['cur_word'] = -1
+            user_data[id]['testing_phase'] = True
+            random.shuffle(user_data[id]['word_list'])
     
     response = app.response_class(
         response=json.dumps(res),
