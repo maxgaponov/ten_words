@@ -6,6 +6,8 @@ from application.models import Word, User
 
 @app.route('/new_game', methods=['GET', 'POST'])
 def new_game():
+    global user_data
+
     req_data = request.get_json()
     id = req_data['id']
     
@@ -33,6 +35,8 @@ def new_game():
 
 @app.route('/next_word', methods=['GET', 'POST'])
 def next_word():
+    global user_data
+
     req_data = request.get_json()
     id = req_data['id']
     wa = req_data['wa']
