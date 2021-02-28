@@ -45,13 +45,14 @@ def next_word():
     logging.error(req_data)
     id = req_data['id']
     wa = req_data['wa']
+    logging.error(type(wa))
 
     res = {}
 
     logging.error(user_data)
 
     if user_data[id]['testing_phase']:
-        if not wa and user_data[id]['cur_word'] == len(user_data[id]['word_list']):
+        if wa == 0 and user_data[id]['cur_word'] == len(user_data[id]['word_list']):
             res = {'word_rus': '', 'word_eng': '', 'end': True}
             user = User.query.filter_by(sber_id=id).first()
             user.level += 1
@@ -60,7 +61,8 @@ def next_word():
             res = {'word_rus': '', 'word_eng': '', 'end': True}
             user_data[id]['cur_word'] += 1
         else:
-            if wa:
+            if wa == 1:
+                logging.error("штука")
                 user_data[id]['cur_word'] -= 1
                 idx = user_data[id]['cur_word']
                 wa_word = user_data[id]['word_list'].pop(idx)
